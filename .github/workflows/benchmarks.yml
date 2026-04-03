@@ -96,7 +96,7 @@ jobs:
           python @args
 
       - name: Upload benchmark artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-results-${{ matrix.environment }}
           path: benchmarks/results
