@@ -72,15 +72,28 @@ jobs:
           python -m unittest discover benchmarks/tests
 
       - name: Run benchmark smoke profile
+        shell: pwsh
         run: |
-          python -m benchmarks.infrastructure.benchmark_harness \
-            --environment "${{ matrix.environment }}" \
-            --suite "${{ github.event.inputs.suites || '01_algorithms' }}" \
-            --target "${{ github.event.inputs.targets || 'agam_llvm_o3_call_cache_off,agam_llvm_o3_call_cache_on,agam_jit_o2_call_cache_off,agam_jit_o2_call_cache_on,python_cpython,c_clang_o3,cpp_clangxx_o3,rust_release,go_release' }}" \
-            --include-comparisons \
-            --warmups 1 \
-            --runs 2 \
-            --max-benchmarks 2
+          $suite = "${{ github.event.inputs.suites || '01_algorithms' }}"
+          $targets = "${{ github.event.inputs.targets || 'agam_llvm_o3_call_cache_off,agam_llvm_o3_call_cache_on,agam_jit_o2_call_cache_off,agam_jit_o2_call_cache_on,python_cpython,c_clang_o3,cpp_clangxx_o3,rust_release,go_release' }}"
+          $args = @(
+            '-m'
+            'benchmarks.infrastructure.benchmark_harness'
+            '--environment'
+            "${{ matrix.environment }}"
+            '--suite'
+            $suite
+            '--target'
+            $targets
+            '--include-comparisons'
+            '--warmups'
+            '1'
+            '--runs'
+            '2'
+            '--max-benchmarks'
+            '2'
+          )
+          python @args
 
       - name: Upload benchmark artifacts
         uses: actions/upload-artifact@v4
