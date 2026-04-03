@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-Please report security issues to security@agam-lang.org.
+Please report security issues to ksvikash236@gmail.com.
